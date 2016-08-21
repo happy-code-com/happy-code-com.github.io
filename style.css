@@ -1,0 +1,217 @@
+
+.leaflet-container {
+    background-color: white;
+}
+.legend-block-color {
+    display: inline-block;
+    /*height: 15px;*/
+    padding: 4px 10px;
+    /*width: 60px;*/
+    text-align: center;
+}
+
+.legend-block {
+    display: inline-block;
+    text-align: left;
+    opacity: 1;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    font-family: ALSStory, Helvetica;
+}
+
+.popup-my {
+    margin-bottom: 20px;
+    font-family: ALSStory, Helvetica;
+}
+
+#legend-minus {
+    text-align: center;
+    /*position: absolute;*/
+    /*bottom: 0px;*/
+    /*right: 0px;*/
+    /*left: 0px;*/
+    /*background-color: rgba(255, 255, 255, 0.67);*/
+    z-index: 999;
+    font-family: ALSStory, Helvetica;
+    font-weight: 500;
+}
+
+/*.legend-block:hover, */
+.legend-block.active {
+    opacity: 1;
+    cursor: pointer;
+    border-color: #144881;
+}
+
+.popup-my {
+    opacity: 1 !important;
+}
+
+.popup-my .green {
+    color: #6cac32;
+}
+
+.popup-my .red {
+    color: #de5332;
+}
+
+.region_map_image_chart img {
+    width:100%;
+    /*max-width: 700px;*/
+}
+
+
+
+/*@font-face {*/
+    /*font-family: ALSStory;*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold_italic-webfont.eot);*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold_italic-webfont.eot?#iefix) format('embedded-opentype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold_italic-webfont.woff) format('woff'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold_italic-webfont.ttf) format('truetype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold_italic-webfont.svg#als_storybold_italic) format('svg');*/
+    /*font-weight: 700;*/
+    /*font-style: italic*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSStory;*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold-webfont.eot);*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold-webfont.eot?#iefix) format('embedded-opentype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold-webfont.woff) format('woff'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold-webfont.ttf) format('truetype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_bold-webfont.svg#als_storybold) format('svg');*/
+    /*font-weight: 700;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSStory;*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_italic-webfont.eot);*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_italic-webfont.eot?#iefix) format('embedded-opentype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_italic-webfont.woff) format('woff'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_italic-webfont.ttf) format('truetype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_italic-webfont.svg#als_storyitalic) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: italic*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSStory;*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_regular-webfont.eot);*/
+    /*src: url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_regular-webfont.eot?#iefix) format('embedded-opentype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_regular-webfont.woff) format('woff'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_regular-webfont.ttf) format('truetype'), url(https://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSStory/als_story_regular-webfont.svg#als_storyregular) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*@font-face {*/
+    /*font-family: ALSEkibastuzBlack;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_black-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_black-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_black-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_black-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_black-webfont.svg#als_ekibastuz_black) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSEkibastuz;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_bold-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_bold-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_bold-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_bold-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_bold-webfont.svg#als_ekibastuz_bold) format('svg');*/
+    /*font-weight: 700;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSEkibastuzHeavy;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_heavy-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_heavy-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_heavy-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_heavy-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_heavy-webfont.svg#als_ekibastuz_heavy) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSEkibastuzLight;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_light-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_light-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_light-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_light-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_light-webfont.svg#als_ekibastuz_light) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSEkibastuz;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_regular-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_regular-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_regular-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_regular-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSEkibastuz/als_ekibastuz_regular-webfont.svg#als_ekibastuz_regular) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: LatoBold;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.woff2) format('woff2'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-bold-webfont.svg#latobold) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: LatoHeavy;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.woff2) format('woff2'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-heavy-webfont.svg#latoheavy) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: LatoLight;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.woff2) format('woff2'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-light-webfont.svg#latolight) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: Lato;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.woff2) format('woff2'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-regular-webfont.svg#latoregular) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: LatoBlack;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.woff2) format('woff2'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/Lato/lato-black-webfont.svg#latoblack) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: PTMono;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTMono/ptm55ft-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTMono/ptm55ft-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTMono/ptm55ft-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTMono/ptm55ft-webfont.ttf) format('truetype');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: PTSerif;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF56F-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF56F-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF56F-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF56F-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF56F-webfont.svg#PTF56F-webfont) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: italic*/
+/*}*/
+/*@font-face {*/
+    /*font-family: PTSerif;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF75F-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF75F-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF75F-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF75F-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/PTSerif/PTF75F-webfont.svg#PTF75F-webfont) format('svg');*/
+    /*font-weight: 700;*/
+    /*font-style: normal*/
+/*}*/
+/*@font-face {*/
+    /*font-family: ALSRubl;*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSRubl/als-rouble-webfont.eot);*/
+    /*src: url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSRubl/als-rouble-webfont.eot?#iefix) format('embedded-opentype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSRubl/als-rouble-webfont.woff) format('woff'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSRubl/als-rouble-webfont.ttf) format('truetype'), url(http://s.rbk.ru/v7_top_static/common/common-3.13.11/styles/fonts/ALSRubl/als-rouble-webfont.svg#als-rouble-regular) format('svg');*/
+    /*font-weight: 400;*/
+    /*font-style: normal*/
+/*}*/

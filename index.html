@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="./bower_component/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="./style.css" />
+        <script src="./bower_component/leaflet/leaflet-src.js"></script>
+        <script src="./bower_component/jquery/jquery-3.1.0.min.js"></script>
+        <script src="./bower_component/isMobile/isMobile.min.js"></script>
+    </head>
+
+    <body style="margin: 0px; padding: 0px;">
+
+        <div id="region_map_dinamic">
+            <table border="0" style="width:100%; height: 100%;">
+                <tr  style="height: 10%;">
+                    <td>
+                        <h2 style="font-family: ALSStory, Helvetica;font-weight: 500;">Где можно взять кредит на покупку жилья без риска для семейного бюджета.<br> <span style="color:#999999; font-weight: 300;">Первичный рынок, руб</span></h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="region-map" style="width:100%; height: 100%;"></div>
+                    </td>
+                </tr>
+                <tr style="height: 1%;">
+                    <td style="padding: 10px;">
+                        <div id="legend-minus"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="region_map_image_chart">
+            <img src="./i/image001.png" style="width:100%;"/>
+        </div>
+
+        <script src="./main.js"></script>
+    </body>
+</html>
