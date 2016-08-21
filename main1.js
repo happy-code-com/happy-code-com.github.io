@@ -154,7 +154,7 @@ function each_polygons (feature, layer) {
         var popup = false;
 
         layer.on('click', function (e) {
-            console.log('click');
+            //console.log('click');
             $('.legend-block').removeClass('active');
             layer_group.setStyle(defaultStyle);
             if (popup) {
@@ -186,7 +186,7 @@ function each_polygons (feature, layer) {
         });
 
         layer.on('mouseover', function (e) {
-            console.log('mouseover');
+            //console.log('mouseover');
             layer_group.setStyle(defaultStyle);
             $('.legend-block').removeClass('active');
             region_switcher_stop();
@@ -215,7 +215,7 @@ function each_polygons (feature, layer) {
 
         });
         layer.on("mouseout", function (e) {
-            console.log('mouseout');
+            //console.log('mouseout');
             //region_switcher_start();
             legend_animation_start();
             layer.setStyle(defaultStyle);
@@ -239,7 +239,7 @@ function each_polygons (feature, layer) {
 
 
 $('body').on('mouseover', '.legend-block', function(){
-    console.log('mouseover');
+    //console.log('mouseover');
     $('.legend-block').removeClass('active');
     layer_group.setStyle(defaultStyle);
     var color_number = $(this).attr('data-color-number');
@@ -254,7 +254,7 @@ $('body').on('mouseover', '.legend-block', function(){
 });
 
 $('body').on('mouseout', '.legend-block', function(){
-    console.log('mouseout');
+    //console.log('mouseout');
     var color_number = $(this).attr('data-color-number');
     var legend_block = $('.legend-block[data-color-number="'+color_number+'"]');
     $(legend_block).removeClass('active');
@@ -266,7 +266,7 @@ $('body').on('mouseout', '.legend-block', function(){
 });
 
 $('body').on('click', '.legend-block', function(){
-    console.log('click');
+    //console.log('click');
     $('.legend-block').removeClass('active');
     layer_group.setStyle(defaultStyle);
     var color_number = $(this).attr('data-color-number');
