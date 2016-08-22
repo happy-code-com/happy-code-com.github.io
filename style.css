@@ -48,11 +48,12 @@
 }
 
 .popup-my .green {
-    color: #6cac32;
+    /*color: #6cac32;*/
+    color: #5dc2af;
 }
 
 .popup-my .red {
-    color: #de5332;
+    color: #922A14;
 }
 
 .region_map_image_chart img {
