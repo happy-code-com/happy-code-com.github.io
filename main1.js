@@ -123,7 +123,7 @@ function iframe_map_show () {
             for (var i in legend.plus) {
                 html_legend =  '<span class="legend-block" data-color-number="'+legend.plus[i].color_number+'"><span class="legend-block-color" style="background-color: #'+legend.plus[i].color+'"> ' + legend.plus[i].sum + '</span></span>' + html_legend;
             }
-            html_legend =  html_legend + '<span class="legend-block" data-color-number="n"><span class="legend-block-color" style="background-color: #eae7e7"> <b>0</b></span></span>';
+            //html_legend =  html_legend + '<span class="legend-block" data-color-number="n"><span class="legend-block-color" style="background-color: #eae7e7"> <b>0</b></span></span>';
             for (var i in legend.minus) {
                 html_legend = html_legend + '<span class="legend-block" data-color-number="'+legend.minus[i].color_number+'"><span class="legend-block-color" style="background-color: #'+legend.minus[i].color+'"> ' + legend.minus[i].sum + '</span></span>';
             }
