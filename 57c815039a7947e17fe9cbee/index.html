@@ -1,0 +1,577 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./bower_component/jquery-ui-1.12.0/jquery-ui.min.css" />
+    <link rel="stylesheet" href="./bower_component/jquery-ui-1.12.0/jquery-ui.theme.min.css" />
+    <script src="./bower_component/jquery/jquery-3.1.0.min.js"></script>
+    <script src="./bower_component/isMobile/isMobile.min.js"></script>
+</head>
+
+<body>
+    <div id="credit_card_calc">
+
+        <table border="0" style="width:100%; height: 100%;" cellpadding="0" cellspacing="0">
+            <tr  style="height: 1%;">
+                <td style="padding-right:40px;">
+                    <h2 id="main-title">Рейтинг карт с кешбэком:  персональный подбор предложений банков</h2>
+                    <div class="margin-left-40" style="color:#999999; font-weight: 300;margin-bottom: 40px;">
+                        <div style="margin-bottom: 15px;">РБК на основе данных Frank Research Group представляет сервис, дающий возможность выбрать самые выгодные* программы банков по частичному возврату средств.</div>
+                        <div style="margin-bottom: 15px;">Выгода рассчитана как разница между суммой кешбэка по карте и стоимостью ее обслуживания.</div>
+                        <div style="font-weight: bold;">Чтобы подобрать самую выгодную дебетовую или кредитную карту, введите данные в форме ниже.</div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 1%;">
+                <td>
+                    <form action="#" method="POST" name="calc-in-data" class="margin-left-40" style="padding-right: 40px;">
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" style="">
+                            <tr>
+                                <td colspan="2">
+                                    <table width="100%" style="background-color: #f9f6ee; padding: 20px; margin-right: 40px; margin-bottom: 30px;">
+
+                                        <tr>
+                                            <td colspan="2" style="padding-top: 10px;padding-bottom: 5px;">
+                                                <div style="font-weight: bold;">
+                                                    <span class="circle-black">1</span>&nbsp;&nbsp;Ежемесячный доход, руб.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <div><input type="text" value="65000" name="earnings" class="biginput"/></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="vertical-align: middle;padding:10px 0px 5px 0px;" colspan="2">
+                                                <div style="font-weight: bold;padding:2px;">
+                                                    <span class="circle-black">2</span>&nbsp;&nbsp;Ежемесячные расходы по карте, руб.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="vertical-align: middle;padding:0px 20px 0px 0px;width: 1%;">
+                                                <input type="text" value="32500" name="amount_debit_card" class="biginput" />
+                                            </td>
+
+                                            <td style="text-align: left; vertical-align: middle;">
+                                                <div id="slider_amount_debit_card" class="slider_earnings" style=" display: inline-block;"></div>
+                                                <div class="display-none">
+                                                    <span style="color:gray;"><span id="amount_debit_card_percents">50</span>%</span>
+                                                    <span style="color:gray;">(<span id="amount_debit_card_by_year" >390000</span>&nbsp;руб. в год)</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="margin-left: 25px;" >
+                            <span class="circle-black">3</span>&nbsp;&nbsp;
+                            <a href="#" id="sub-user-info-button" onclick="return false;">
+                                Дополнительные параметры позволят сделать выбор более точным
+                            </a>
+                            <div id="addition-settings-block" class="">
+
+                                <div style="margin-left:20px;margin-top:20px;">
+                                    <div class="addition-settings-block-close">Применить настройки</div>
+                                </div>
+
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin-left: 20px;">
+                                    <tr>
+                                        <td colspan="2">
+
+                                        </td>
+                                    </tr>
+                                    <tr class="sub-user-info">
+                                        <td colspan="2">
+                                            <div style="margin-top: 20px;color:#999999; font-weight: 300;">
+                                                Укажите ваши примерные расходы по карте для каждой категории, %
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="width: 20%;font-weight:600;">
+                                            Рестораны
+                                        </td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_restaurant" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_restaurant_by_month">0</span>&nbsp;руб. в месяц</span>
+                                            <div class="display-none">
+                                                <input type="text" value="10833.3" name="amount_restaurant" class="biginput"/>&nbsp;
+                                                <span style="color:gray;">(<span id="amount_restaurant_by_year">129999.9</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="font-weight:600;">
+                                            АЗС
+                                        </td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_azs" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_azs_by_month">0</span>&nbsp;руб. в месяц</span>
+
+                                            <div class="display-none">
+                                                <input type="text" value="10833.3" name="amount_azs" class="biginput"/>&nbsp;
+                                                <span style="color:gray;"><span id="amount_azs_by_year">129999.9</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info">
+                                        <td style="font-weight:600;">
+                                            Отдых и путешествия
+                                        </td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_travel" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_travel_by_month">0</span>&nbsp;руб. в месяц</span>
+                                            <div class="display-none">
+                                                <input type="text" value="10833.3" name="amount_travel" class="biginput"/>&nbsp;
+                                                <span style="color:gray;"><span id="amount_travel_by_year">129999.9</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="font-weight:600;">Одежда и обувь</td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_clothes" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_clothes_by_month">0</span>&nbsp;руб. в месяц</span>
+                                            <div class="display-none">
+                                                <input type="text" value="10833.3" name="amount_clothes" class="biginput"/>&nbsp;
+                                                <span style="color:gray;"><span id="amount_clothes_by_year">129999.9</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="font-weight:600;">Супермаркеты</td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_superstore" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_superstore_by_month">0</span>&nbsp;руб. в месяц</span>
+                                            <div class="display-none">
+                                                <input type="text" value="10833.3" name="amount_superstore"/>&nbsp;
+                                                <span style="color:gray;"><span id="amount_superstore_by_year">129999.9</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="font-weight:600;">Другие покупки по карте</td>
+                                        <td>
+                                            <input type="text" value="16.6%" name="user_input_amount_other_purchases" class="biginput user_input"/>&nbsp;
+                                            <span style="color:gray;"><span id="amount_other_purchases_by_month">0</span>&nbsp;руб. в месяц</span>
+                                            <div class="display-none">
+                                                <input type="text" value="0" name="amount_other_purchases" class="biginput"/>&nbsp;
+                                                <span style="color:gray;">(<span id="amount_other_purchases_by_year">0</span>&nbsp;руб. в год)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="padding-top:30px;">Среднемесячный остаток на карте, руб.</td>
+                                        <td style="padding-top:30px;"><input type="text" value="0" name="level_of_the_average_monthly_balance_in_the_account_per_month" class="biginput"/>&nbsp;
+                                            <span style="color: gray;"><span id="level_of_the_average_monthly_balance_in_the_account_per_month_percent">0</span>%</span>
+                                            <span style="color:gray;">(<span id="level_of_the_average_monthly_balance_in_the_account_per_month_by_year">0</span>&nbsp;руб. в год)</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td style="padding-top:30px;">Перевод зарплаты на карту</td>
+                                        <td style="padding-top:30px;">
+                                            <input class="biginput" type="checkbox" value="1" name="the_conversion_of_salary_to_the_card_account" checked="checked">
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sub-user-info ">
+                                        <td>Готовность открыть вклад в банке</td>
+                                        <td>
+                                            <input class="biginput" type="checkbox" value="1" name="having_an_open_contribution">
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin-left: 25px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div style="margin-top: 40px;">
+                                        <span class="circle-black">4</span>&nbsp;&nbsp;
+                                        Выберите подходящую программу и банк:
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </form>
+                </td>
+            </tr>
+
+            <!--<tr>-->
+                <!--<td>-->
+                    <!--<h3 class="margin-left-40">Предрасчет - дебет</h3>-->
+                    <!--<table width="100%" id="pre-bank-results" cellpadding="0" cellspacing="0" class="margin-top-40">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th rowspan="2">Банк</th>-->
+                            <!--<th rowspan="2">Категория карты</th>-->
+                            <!--<th rowspan="2">Программа лояльности</th>-->
+
+                            <!--<th rowspan="2">Кэшбэк(др.кат)</th>-->
+                            <!--<th rowspan="2">Кафе</th>-->
+                            <!--<th rowspan="2">АЗС</th>-->
+                            <!--<th rowspan="2">Путешествия</th>-->
+                            <!--<th rowspan="2">Одежда и обувь</th>-->
+                            <!--<th rowspan="2">Супермаркеты</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #59a5e1;">Кеш бэк в год</th>-->
+                            <!--<th rowspan="2" style="background-color: #59a5e1;">Кеш бэк в месяц</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #b8e63c;">Кеш бэк + бонус - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: #b8e63c;">Кеш бэк + бонус - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #e06fe6;">Кеш бэк + бонус + ограничения - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: #e06fe6;">Кеш бэк + бонус + ограничения - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(201, 255, 0, 0.47);">Стоимость обслуживания</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(0, 247, 255, 0.47);">Бесплатно?</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(29, 160, 255, 0.47);">Стоимость/профиль</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 105, 232, 0.47);">Обслуга - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 105, 232, 0.47);">Обслуга - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(82, 255, 61, 0.47);">Стоимость карты</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Стоимость счета + карта - 1</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Стоимость счета + карта - 2</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Выгода - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Выгода - 2 год</th>-->
+
+                        <!--</tr>-->
+                        <!--</thead>-->
+
+                        <!--<tbody id='table-for-pre-results'>-->
+
+                        <!--</tbody>-->
+
+                    <!--</table>-->
+                <!--</td>-->
+            <!--</tr>-->
+
+            <!--<tr>-->
+                <!--<td>-->
+                    <!--<h3 class="margin-left-40">Предрасчет - кредит</h3>-->
+                    <!--<table width="100%" id="pre-bank-results1" cellpadding="0" cellspacing="0" class="margin-top-40">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th rowspan="2">Банк</th>-->
+                            <!--<th rowspan="2">Категория карты</th>-->
+                            <!--<th rowspan="2">Программа лояльности</th>-->
+
+                            <!--<th rowspan="2">Кэшбэк(др.кат)</th>-->
+                            <!--<th rowspan="2">Кафе</th>-->
+                            <!--<th rowspan="2">АЗС</th>-->
+                            <!--<th rowspan="2">Путешествия</th>-->
+                            <!--<th rowspan="2">Одежда и обувь</th>-->
+                            <!--<th rowspan="2">Супермаркеты</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #59a5e1;">Кеш бэк в год</th>-->
+                            <!--<th rowspan="2" style="background-color: #59a5e1;">Кеш бэк в месяц</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #b8e63c;">Кеш бэк + бонус - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: #b8e63c;">Кеш бэк + бонус - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: #e06fe6;">Кеш бэк + бонус + ограничения - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: #e06fe6;">Кеш бэк + бонус + ограничения - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(201, 255, 0, 0.47);">Стоимость обслуживания</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(0, 247, 255, 0.47);">Бесплатно?</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(29, 160, 255, 0.47);">Стоимость/профиль</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 105, 232, 0.47);">Обслуга - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 105, 232, 0.47);">Обслуга - 2 год</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(82, 255, 61, 0.47);">Стоимость карты</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Стоимость счета + карта - 1</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Стоимость счета + карта - 2</th>-->
+
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Выгода - 1 год</th>-->
+                            <!--<th rowspan="2" style="background-color: rgba(255, 254, 56, 0.47);">Выгода - 2 год</th>-->
+
+                        <!--</tr>-->
+                        <!--</thead>-->
+
+                        <!--<tbody id='table-for-pre-results1'>-->
+
+                        <!--</tbody>-->
+
+                    <!--</table>-->
+                <!--</td>-->
+            <!--</tr>-->
+
+            <tr>
+                <td>
+                    <div style="margin-top: 20px;" class="margin-left-40">
+                        <h4 style="margin: 0px;">
+                            <a href="#" onclick="return false;" id="click-to-debet-tab" class="active click-to-table-card">Рейтинг дебетовых карт</a>
+                            <a href="#" onclick="return false;" id="click-to-credit-tab" class="click-to-table-card">Рейтинг кредитных карт</a>
+                        </h4>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="height: 950px; vertical-align: top;">
+
+                    <table border="0" id="debet-table" class="article__inline-table-inner js-sort-table tablesorter tablesorter-default" align="center" role="grid" cellpadding="0" cellspacing="0" style="font-size:13px;margin-top: 0px;max-height: 950px;">
+
+                        <thead>
+                            <tr role="row" class="tablesorter-headerRow">
+                                <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; width:5%;">
+                                    <div class="tablesorter-header-inner">
+                                        <span class="article__inline-table__main-link__underline">№</span>
+                                    </div>
+                                </th>
+
+                                <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                    <div class="tablesorter-header-inner">
+                                        <span class="article__inline-table__main-link__underline">Банк</span>
+                                    </div>
+                                </th>
+
+                                <th class="mobile-hide display-none article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                    <div class="tablesorter-header-inner">
+                                        <span class="article__inline-table__main-link__underline">Категория карты</span>
+                                    </div>
+                                </th>
+
+                                <th class="mobile-hide display-none article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                    <div class="tablesorter-header-inner">
+                                        <span class="article__inline-table__main-link__underline">Программа лояльности</span>
+                                    </div>
+                                </th>
+
+                                <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                    <div class="tablesorter-header-inner">
+                                        <span class="article__inline-table__main-link__underline">Чистая выгода (1 год)</span>
+                                    </div>
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody id='table-for-results'>
+
+                        </tbody>
+
+                    </table>
+
+                    <table border="0" class="article__inline-table-inner js-sort-table tablesorter tablesorter-default display-none" align="center" role="grid" cellpadding="0" cellspacing="0" style="font-size:13px;margin-top: 0px;" id="credit-table">
+
+                        <thead>
+                        <tr role="row" class="tablesorter-headerRow">
+                            <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; width:5%;">
+                                <div class="tablesorter-header-inner">
+                                    <span class="article__inline-table__main-link__underline">№</span>
+                                </div>
+                            </th>
+
+                            <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                <div class="tablesorter-header-inner">
+                                    <span class="article__inline-table__main-link__underline">Банк</span>
+                                </div>
+                            </th>
+
+                            <th class="mobile-hide display-none article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                <div class="tablesorter-header-inner">
+                                    <span class="article__inline-table__main-link__underline">Категория карты</span>
+                                </div>
+                            </th>
+
+                            <th class="mobile-hide display-none article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                <div class="tablesorter-header-inner">
+                                    <span class="article__inline-table__main-link__underline">Программа лояльности</span>
+                                </div>
+                            </th>
+
+                            <th class="article__inline-table__title js-table-th tablesorter-header js-header tablesorter-headerAsc" data-sort="number" data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="ascending" aria-label="№: Ascending sort applied, activate to apply a descending sort" style="-webkit-user-select: none; ">
+                                <div class="tablesorter-header-inner">
+                                    <span class="article__inline-table__main-link__underline">Чистая выгода (1 год)</span>
+                                </div>
+                            </th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody id='table-for-results-credit'>
+
+                        </tbody>
+
+                    </table>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div style="margin-left: 40px; margin-right: 40px;margin-bottom: 40px;">
+                        <h4><sup>*</sup>Методика расчета:</h4>
+
+                        <div>Для составления рейтинга карт с кешбэком Frank Research Group оценила действующие программы 15 крупнейших банков по портфелю кредитных карт и 15 крупнейших банков по объему счетов и вкладов физлиц (на 1 августа 2016 г). Программы для дебетовых и кредитных карт оценивались  отдельно.</div>
+                        <br />
+                        <b>При расчетах применены следующие допущения:</b>
+                        <div>
+                            - Кешбэк - процент от потраченных клиентом средств в торговых точках, который банк возвращает клиенту в качестве вознаграждения за использование карты. Сумма может варьироваться от 0% до 5% и распространяться на все покупки, только на определенные категории товаров или на определенные категории товаров с повышенным возвратом средств. Также под кешбэком для расчета понимались баллы и бонусы, которые клиент может обналичить, переведя их с бонусного счета на свой расчётный счёт в банке<br>
+                            <br />
+                            - Выгода рассчитывалась как размер вознаграждений в месяц (сумма кешбека, возвращаемая банком, приветственные бонусы, подарочные бонусы, начисляемые в день рождение и пр.), минус издержки на обслуживание счета (стоимость выпуска и обслуживания карты и стоимость обслуживания счета).<br>
+                            <br />
+                            - При расчетах учтено, что большинство банков ограничивают выплаты вознаграждений определеннной суммой - в месяц или в год.<br>
+                            <br />
+                            - Если банк предлагает программу лояльности по картам нескольких видов (Instant, Classic, Gold, Platinum), оценивались только карты Instant, Classic и Gold. Карты Platinum не принимались во внимание, если банк не предлагал программу лояльности только на картах Platinum (пример: Сверхкарта+ Росбанка).<br>
+                            <br />
+                            - При расчетах учтены категории трат, за которые банки наиболее часто предлагаю повышенный кешбэк: рестораны, АЗС, отдых и путешествия, одежда и обувь, супермаркеты.<br>
+                            <br />
+                            - Клиент финансово грамотен и выбирает наиболее выгодные для себя категории с повышенным кешбэк.<br>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 99%; vertical-align: top;">
+                <td style="padding: 10px;">
+                    <div class="copyright_rbc">© РБК, 2016</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <!--<script type='text/template' id="pre-result-rows-template">-->
+        <!--<% _.each(data.rows, function(row) { %>-->
+            <!--<tr>-->
+                <!--<td><%= row.bank['name'] %></td>-->
+                <!--<td><%= row.bank['card_category'] %></td>-->
+                <!--<td><%= row.bank['program_name'] %></td>-->
+                <!--<td><%= row.other_purchases %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_other_categories %>%</span></td>-->
+                <!--<td><%= row.restaurant %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_restaurant %>%</span></td>-->
+                <!--<td><%= row.azs %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_gas_stations %>%</span></td>-->
+                <!--<td><%= row.travel %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_travel %>%</span></td>-->
+                <!--<td><%= row.clothes %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_clothes %>%</span></td>-->
+                <!--<td><%= row.superstore %>&nbsp;&nbsp;<span style="color: #ccc;"><%= row.bank.cash_back_superstore %>%</span></td>-->
+                <!--<td><%= row.cash_back_summ_by_year %></td>-->
+                <!--<td><%= row.cash_back_summ_by_month %></td>-->
+                <!--<td><%= row.cash_back_summ_and_bonus_by_first_year %></td>-->
+                <!--<td><%= row.cash_back_summ_and_bonus_by_second_year %></td>-->
+                <!--<td><%= row.cash_back_and_bonus_and_limit_first_year %></td>-->
+                <!--<td><%= row.cash_back_and_bonus_and_limit_second_year %></td>-->
+                <!--<td><%= row.bank['cost_of_services'] %></td>-->
+                <!--<td><%= row.free_account_maintenance_on_customer_profile %></td>-->
+                <!--<td><%= row.cost_of_service_for_the_customer_profile %></td>-->
+                <!--<td><%= row.account_service_fee_on_a_profile_per_first_year %></td>-->
+                <!--<td><%= row.account_service_fee_on_a_profile_per_second_year %></td>-->
+                <!--<td><%= row.bank['the_cost_of_card_issuance'] %></td>-->
+                <!--<td><%= row.the_cost_of_account_maintenance_and_card_per_first_year %></td>-->
+                <!--<td><%= row.the_cost_of_account_maintenance_and_card_per_second_year %></td>-->
+                <!--<td><%= row.grand_cashback_first_year %></td>-->
+                <!--<td><%= row.grand_cashback_second_year %></td>-->
+            <!--</tr>-->
+        <!--<% }); %>-->
+    <!--</script>-->
+
+    <script type='text/template' id="result-rows-template">
+        <% _.each(data.rows, function(row) { %>
+            <tr class="article__inline-table__trigger js-table-trigger tablesorter-hasChildRow odd-row" role="row" data-bank-id="<%= row.bank['id'] %>">
+                <td class="article__inline-table__td article__inline-table__number" style="width:1%;"><%= row['rate_position'] %></td>
+                <td class="article__inline-table__td">
+                    <i class="article__inline-table__plus" data-rate="<%= row['rate_position'] %>">&nbsp;</i>
+                    <i class="article__inline-table__minus" data-rate="<%= row['rate_position'] %>">&nbsp;</i>
+                    <img src="./images/<%= row.bank['logo_file'] %>" style="max-height: 20px;">
+                </td>
+                <td class="mobile-hide display-none article__inline-table__td"><%= row.bank['card_category'] %></td>
+                <td class="mobile-hide display-none article__inline-table__td"><%= row.bank['program_name'] %></td>
+                <td class="article__inline-table__td" style="font-size:18px;color:<%= row['color'] %>"><%= row.grand_cashback_first_year_f %></td>
+            </tr>
+            <tr data-rate="<%= row['rate_position'] %>" class="rate-description display-none">
+                <td></td>
+                <td colspan="4" class="mobile-info-hide">
+                   <div class="content">
+
+                       <div class="rate-description-tables">
+                           <table border="0" class="rate-description-tables" cellspacing="0" cellpadding="0">
+                               <tr>
+                                   <th colspan="2">Сумма кешбэка<sup>*</sup>, руб.</th>
+                               </tr>
+                               <tr>
+                                   <th>1-й год</th>
+                                   <th>2-й год</th>
+                               </tr>
+                               <tr>
+                                   <td><%= row.cash_back_and_bonus_and_limit_first_year %></td>
+                                   <td><%= row.cash_back_and_bonus_and_limit_second_year %></td>
+                               </tr>
+                           </table>
+                       </div>
+
+                       <div class="rate-description-tables">
+                           <table border="0" class="rate-description-tables" cellspacing="0" cellpadding="0">
+                               <tr>
+                                   <th colspan="2">Стоимость обслуживания, руб.</th>
+                               </tr>
+                               <tr>
+                                   <th>1-й год</th>
+                                   <th>2-й год</th>
+                               </tr>
+                               <tr>
+                                   <td><%= row.account_service_fee_on_a_profile_per_first_year %></td>
+                                   <td><%= row.account_service_fee_on_a_profile_per_second_year %></td>
+                               </tr>
+                           </table>
+                       </div>
+
+                       <div class="rate-description-tables">
+                           <table border="0" class="rate-description-tables" cellspacing="0" cellpadding="0">
+                               <tr>
+                                   <th colspan="2">Выгода, руб.</th>
+                               </tr>
+                               <tr>
+                                   <th>1-й год</th>
+                                   <th>2-й год</th>
+                               </tr>
+                               <tr>
+                                   <td><%= row.grand_cashback_first_year %></td>
+                                   <td><%= row.grand_cashback_second_year %></td>
+                               </tr>
+                           </table>
+                       </div>
+
+                        <div class="display-none mobile-info"><b>Категория карты:</b> <%= row.bank['card_category'] %></div>
+                        <div class="display-none mobile-info"><b>Программа лояльности:</b> <%= row.bank['program_name'] %></div>
+                   </div>
+                </td>
+            </tr>
+        <tr><td style="height: 0px;"></td></tr>
+        <% }); %>
+    </script>
+
+    <script src="./bower_component/underscorejs/underscore-min.js"></script>
+    <script src="./bower_component/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+    <script src="./bower_component/jquery_ui_touch_punch/jquery.ui.touch-punch.min.js"></script>
+    <script src="./data.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
