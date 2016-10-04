@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>Гос дума</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css" media="screen">
+</head>
+<body>
+<div class="choosers">
+<a class="choosers__item" data-sort="inbox_money_summ" href="#">Доход</a>
+<a class="choosers__item" data-sort="bank_total_sum" href="#">Счета в банке</a>
+    <a class="choosers__item " data-sort="parts" href="#">По партиям</a>
+    <a class="choosers__item" data-sort="sex" href="#">Пол</a>
+    <a class="choosers__item" data-sort="age" href="#">Возраст</a>
+</div>
+
+<canvas id='example'>Обновите браузер</canvas>
+
+<ul class="duma-legend">
+    <li class="duma-legend__item" data-id="14">
+        <span class="duma-legend__item-ball">&nbsp;</span>
+        <span class="duma-legend__item-name">«Единая Россия»</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="1">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">КПРФ</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="7">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">ЛДПР</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="2">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">«Справедливая Россия»</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="12">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">«Родина»</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="4">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">«Гражданская платформа»</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+    <li class="duma-legend__item" data-id="16">
+        <span class="duma-legend__item-ball"></span>
+        <span class="duma-legend__item-name">Самовыдвижение</span>
+        <span class="duma-legend__item-count"></span>
+    </li>
+</ul>
+
+<div class="mobile_picture">
+    <img src="./images/deputaty.png" alt="Депутаты" />
+</div>
+
+<div class="duma-modal">
+    <div class="duma-modal__image-wrapper">
+        <div class="duma-modal__image">
+        </div>
+    </div>
+    <div class="duma-modal__text-wrapper">
+        <div class="duma-modal__party-name"></div>
+        <div class="duma-modal__name"></div>
+        <div class="duma-modal__birthdate"></div>
+    </div>
+    <a class="duma-modal__link-more" href="#">Подробнее</a>
+    <div class="duma-modal__more-wrapper">
+        <div class="duma-modal__more-work">Род деятельности
+            <div class="duma-modal__more-work-value"></div>
+        </div>
+
+        <div class="duma-modal__more-commerce">Количество бизнес активов
+            <div class="duma-modal__more-commerce-value"></div>
+        </div>
+
+        <div class="duma-modal__more-election">Способ избрания
+            <div class="duma-modal__more-election-value"></div>
+        </div>
+
+        <div class="duma-modal__more-income">Доход<br/>
+            <div class="duma-modal__more-income-value"></div>
+        </div>
+
+        <div class="duma-modal__more-bank">Счет в банке<br/>
+            <div class="duma-modal__more-bank-value"></div>
+        </div>
+    </div>
+    <a class="duma-modal__more-close" href="#">Закрыть</a>
+    <a href="#" class="duma-modal__close">&#215;</a>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script>
+    var color = {
+        '14': '#226bc4',
+        '1': '#ef463d',
+        '7': '#509efa',
+        '2': '#f39200',
+        '12': '#B61818',
+        '4': '#bd55bd',
+        '16': '#cccccc'
+    };
+    var temp_height = {
+        'parts' : [],
+        'sex' : [],
+        'age' : [],
+        'bank_total_sum': [],
+        'inbox_money_summ' : []
+    };
+    var height = {
+        'parts' : 0,
+        'sex' : 0,
+        'age' : 0,
+        'bank_total_sum': 0,
+        'inbox_money_summ' : 0
+    };
+    var max_word_lenght = {
+        'parts' : '',
+        'sex' : '',
+        'age' : '',
+        'bank_total_sum': '',
+        'inbox_money_summ' : ''
+    };
+    var sort = {
+        'parts': {
+            14 : {
+                'name': '«Единая Россия»',
+                'count': 0,
+                'items': []
+            },
+            1 : {
+                'name': 'КПРФ',
+                'count': 0,
+                'items': []
+            },
+            7 : {
+                'name': 'ЛДПР',
+                'count': 0,
+                'items': []
+            },
+            2 : {
+                'name': '«Справедливая Россия»​',
+                'count': 0,
+                'items': []
+            },
+            12 : {
+                'name': '«Родина»',
+                'count': 0,
+                'items': []
+            },
+            4 : {
+                'name': '«Гражданская платформа»',
+                'count': 0,
+                'items': []
+            },
+            16 : {
+                'name': 'Самовыдвижение',
+                'count': 0,
+                'items': []
+            }
+        },
+        'sex': [
+            {
+                'def': 'man',
+                'label': 'Мужчины',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'def': 'woman',
+                'label': 'Женщины',
+                'count': 0,
+                'elements': []
+            }
+        ],
+        'age': [
+            {
+                'min': 21,
+                'max': 30,
+                'label': '21',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 30,
+                'max': 40,
+                'label': '30',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 40,
+                'max': 50,
+                'label': '40',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 50,
+                'max': 60,
+                'label': '50',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 60,
+                'max': 70,
+                'label': '60',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 70,
+                'label': '70',
+                'count': 0,
+                'elements': []
+            }
+        ],
+        'bank_total_sum': [
+            {
+                'max': 100000,
+                'label': '0',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 100000,
+                'max': 500000,
+                'label': '100 тыс',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 500000,
+                'max': 1000000,
+                'label': '500 тыс',
+                'count': 0,
+                'elements': []
+
+            },
+            {
+                'min': 1000000,
+                'max': 50000000,
+                'label': '1 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 50000000,
+                'max': 100000000,
+                'label': '50 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 100000000,
+                'max': 200000000,
+                'label': '100 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 200000000,
+                'label': '200 млн',
+                'count': 0,
+                'elements': []
+            }
+        ],
+        'inbox_money_summ': [
+            {
+                'max': 126000,
+                'label': '0',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 126000,
+                'max': 360000,
+                'label': '126 тыс',
+                'help': 'порог прожиточного минимума',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 360000,
+                'max': 1000000,
+                'label': '360 тыс',
+                'help': 'средний доход по России',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 1000000,
+                'max': 2000000,
+                'label': '1 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 2000000,
+                'max': 5000000,
+                'label': '2 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 5000000,
+                'max': 10000000,
+                'label': '5 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 10000000,
+                'max': 20000000,
+                'label': '10 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 20000000,
+                'max': 50000000,
+                'label': '20 млн',
+                'count': 0,
+                'elements': []
+            },
+            {
+                'min': 50000000,
+                'label': '> 50 млн',
+                'count': 0,
+                'elements': []
+            }
+        ]
+    };
+    var data = [];
+
+    var width = 20;
+    var sharik = 16;
+    var rows = Math.floor($('body').innerWidth() / width);
+    var x_coord = 0;
+    var y_coord = -1;
+    var example = document.getElementById("example"),
+            ctx     = example.getContext('2d');
+
+    var incount = 0;
+    var celoe = 0;
+    var ostatok = 0;
+    var count_rows = 0;
+    var left_in_last = 0;
+
+    example.height = width*30;
+    example.width  = $('body').innerWidth();
+
+
+    function findEl(array, value) {
+        for (var i = 0; i < array.length; i++) {
+            if(array[i].hasOwnProperty('def')) {
+                if(array[i].def == value)
+                    return i;
+                else
+                if (i == (array.length - 1))
+                    return console.error("Искомое значение не найдено.");
+
+            } else {
+                if(array[i].hasOwnProperty('min')) {
+                    if(array[i].hasOwnProperty('max')) {
+                        if (value >= array[i].min && value < array[i].max)
+                            return i;
+                        else
+                        if (i == (array.length - 1))
+                            return console.error("Искомое значение не найдено.");
+                    } else {
+                        if (value >= array[i].min)
+                            return i;
+                        else
+                        if (i == (array.length - 1))
+                            return console.error("Искомое значение не найдено.");
+                    }
+                } else if(array[i].hasOwnProperty('max')) {
+                    if (value < array[i].max)
+                        return i;
+                    else
+                    if (i == (array.length - 1))
+                        return console.error("Искомое значение не найдено.");
+                } else {
+                    console.error('Ошибка! Не заданы поля минимум и/или максимум!');
+                }
+            }
+        }
+    }
+
+    var new_x_coord = 0;
+    var new_y_coord = -1;
+
+    var from_top = 0;
+    var from_left = 4;
+
+    var new_y;
+    var new_x;
+
+    var interval;
+    var timeout;
+
+    var y_max = 0;
+    var y_max_summ = 0;
+    var temp_data = [];
+
+    var shagi = 0;
+    var maximum_length = '';
+
+    var texts = [];
+    var helps = [];
+    var lines = [];
+    var global_type = 'parts';
+
+    var the_matrix = [];
+    for(var i = 0; i < 50; i ++)
+        the_matrix[i] = [];
+
+    $('.choosers__item').click(function () {
+        if(!$(this).hasClass('choosers__item_active')) {
+            clearInterval(interval);
+            clearTimeout(timeout);
+            type = $(this).data('sort');
+            buildDataBy(type);
+            shagi = 0;
+            interval = setInterval(function () {
+                draw(temp_data)
+            }, 30); // setInterval
+            timeout = setTimeout(function () {
+                for (var i = 0; i < texts.length; i++)
+                    texts[i].draw()
+                for (var i = 0; i < lines.length; i++)
+                    lines[i].draw();
+                for (var i = 0; i < helps.length; i++)
+                    helps[i].draw();
+            }, 750);
+
+
+            $('.choosers__item').removeClass('choosers__item_active');
+            $(this).addClass('choosers__item_active');
+        }
+        return false;
+    });
+
+    function buildDataBy(type) {
+        y_max_summ = 0;
+        from_top = 0;
+        texts = [];
+        lines = [];
+        helps = [];
+        temp_data = [];
+        global_type = type;
+
+        example.height = width*height[type];
+
+        the_matrix = [];
+        for(var i = 0; i < 50; i ++)
+            the_matrix[i] = [];
+
+        if(type == 'parts') {
+            left_in_last = ostatok;
+            x_coord = 0;
+            y_coord = -1;
+            for(var i = 0; i < data.length; i++) {
+                y_coord += 1;
+                data[i].circle.vX = ((0.5 + x_coord)*width - data[i].circle.x) / 20;
+                data[i].circle.vY = ((0.5 + y_coord)*width - data[i].circle.y) / 20;
+                the_matrix[x_coord][y_coord] = i;
+                temp_data[temp_data.length] = data[i];
+                if((y_coord == (count_rows-1) && left_in_last > 0) || (y_coord == (count_rows-2) && left_in_last == 0)) {
+                    if(y_coord == count_rows-1) {
+                        left_in_last -= 1;
+                    }
+                    y_coord = -1;
+                    x_coord += 1;
+                }
+            }
+        } else if(type == 'sex') {
+            var col_x = Math.floor(sort[type][0].count / count_rows +1);
+            var inc = sort[type][0].count / col_x;
+            var cinc = Math.floor(inc);
+            var last = Math.round((inc - cinc)*col_x);
+            var max = cinc;
+            x_coord = 0;
+            y_coord = -1;
+
+            ctx.font = "16px ALSStory";
+            texts[texts.length] = new text(sort[type][0].label, ctx.measureText(sort[type][0].label).width , width, '#000000');
+
+            for(var i =0; i< sort[type][0].elements.length; i++) {
+                y_coord += 1;
+                sort[type][0].elements[i].circle.vX = ((x_coord + 0.5)*width - sort[type][0].elements[i].circle.x) / 20;
+                sort[type][0].elements[i].circle.vY = ((y_coord + 2.5)*width - sort[type][0].elements[i].circle.y) / 20;
+                the_matrix[x_coord][y_coord+2] = data.indexOf(sort[type][0].elements[i]);
+                temp_data[temp_data.length] = sort[type][0].elements[i];
+                if((y_coord == max && last > 0) || (y_coord == max-1 && last == 0)) {
+                    if(y_coord == max) {
+                        last -= 1;
+                    }
+                    y_coord = -1;
+                    x_coord += 1;
+                }
+            }
+
+            var this_from_left = col_x + 1;
+            col_x = Math.floor(sort[type][1].count / count_rows +1);
+            inc = sort[type][1].count / col_x;
+            cinc = Math.floor(inc);
+            last = Math.round((inc - cinc)*col_x);
+            max = cinc;
+            x_coord = 0;
+            y_coord = -1;
+
+            ctx.font = "16px ALSStory";
+            texts[texts.length] = new text(sort[type][1].label, this_from_left*width + ctx.measureText(sort[type][1].label).width , width, '#000000');
+/*            texts[texts.length] = new text(sort[type][1].label, , width, '#000000');*/
+
+            for(var i =0; i< sort[type][1].elements.length; i++) {
+                y_coord += 1;
+                sort[type][1].elements[i].circle.vX = ((x_coord + 0.5 + this_from_left) * width - sort[type][1].elements[i].circle.x) / 20;
+                sort[type][1].elements[i].circle.vY = ((y_coord + 2.5) * width - sort[type][1].elements[i].circle.y) / 20;
+                the_matrix[x_coord + this_from_left][y_coord + 2] = data.indexOf(sort[type][1].elements[i]);
+                temp_data[temp_data.length] = sort[type][1].elements[i];
+                if ((y_coord == max && last > 0) || (y_coord == max - 1 && last == 0)) {
+                    if (y_coord == max) {
+                        last -= 1;
+                    }
+                    y_coord = -1;
+                    x_coord += 1;
+                }
+            }
+        } else {
+            for (var key = sort[type].length-1; key >= 0; key--) {
+                kk = sort[type].length - key;
+                ctx.font = "16px ALSStory";
+                from_left = Math.ceil(ctx.measureText(max_word_lenght[type]).width / width) + 2;
+                from_top = y_max_summ;
+                var y_all = sort[type][key].elements.length / (rows - from_left);
+                y_max = Math.floor(y_all);
+                var y_ost = Math.round((y_all - y_max)*(rows - from_left));
+                y_max_summ += y_max + 2;
+                new_y_coord = -1;
+                new_x_coord = 0;
+                texts[texts.length] = new text(sort[type][key].label, (from_left - 1) * width, (from_top + y_max + 1.5)*width -2, '#000000');
+                lines[lines.length] = new line((from_left - 0.5)*width, (from_top + y_max + 1.5)*width, (from_left + (rows - from_left))*width, (from_top + y_max + 1.5)*width);
+                if(sort[type][key].hasOwnProperty('help')) {
+                    helps[helps.length] = new helper((from_left +16)*width, (from_top + y_max + 1.5)*width, sort[type][key].help);
+                }
+                for (var i = 0; i < sort[type][key].elements.length; i++) {
+                    new_y_coord += 1;
+                    new_y = (from_top + new_y_coord + 0.5) * width;
+                    new_x = (from_left + new_x_coord + 0.5) * width;
+                    sort[type][key].elements[i].circle.vY = (new_y - sort[type][key].elements[i].circle.y) / 20; //20
+                    sort[type][key].elements[i].circle.vX = (new_x - sort[type][key].elements[i].circle.x) / 20; //20
+                    the_matrix[from_left + new_x_coord][from_top + new_y_coord] = data.indexOf(sort[type][key].elements[i]);
+                    temp_data[temp_data.length] = sort[type][key].elements[i];
+                    if ((new_y_coord == y_max && y_ost > 0) || (new_y_coord == y_max-1 && y_ost == 0)) {
+                        if(new_y_coord == y_max) {
+                            y_ost -= 1;
+                            if(y_ost == 0) {
+                                texts[texts.length] = new counter((from_left + new_x_coord + 1.5)*width + 4, (from_top + new_y_coord)*width + 4, sort[type][key].count);
+                            }
+                        }
+                        new_y_coord = -1;
+                        new_x_coord += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    pole = new rect(0, 0, example.width, example.height); // прямоугольник закрашивающий фон
+
+    function update(data) {
+        if (shagi >= 19) {
+            clearInterval(interval);
+            pole.draw('#ffffff', 1);
+            drawCircles(data);
+            return;
+        }
+    }
+    function draw(data) {
+        shagi +=1;
+        pole.draw('#ffffff', 0.9); // рисуем фон
+        drawCircles(data);
+        update(data); // обновляем координаты
+    }
+
+    function drawCircles(data) {
+        for(var i = 0; i < data.length; i++) {
+            data[i].circle.x += data[i].circle.vX;
+            data[i].circle.y += data[i].circle.vY;
+            data[i].circle.draw();
+        }
+    }
+
+    $(document).ready(function() {
+        $.ajax({
+            url: 'data.json',
+            dataType: 'json',
+            cache: false,
+            complete: function(deputates) {
+                data = JSON.parse(deputates.responseText);
+
+                for(var i = 0; i < data.length; i++) {
+                    sort.parts[data[i].party_id].count += 1;
+                    sort.parts[data[i].party_id].items[sort.parts[data[i].party_id].items.length] = data[i];
+                }
+
+                data = data.sort( function(first, second) {
+                    if(sort.parts[first.party_id].count > sort.parts[second.party_id].count)
+                        return -1;
+                    else if(sort.parts[second.party_id].count > sort.parts[first.party_id].count)
+                        return 1;
+                    else {
+                        if(first.party_name > second.party_name) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                });
+
+                for(var i = 0; i < data.length; i++ ) {
+                    for(var key in sort) {
+                        if(key != 'parts') {
+                            if(key != 'sex' && key != 'age') {
+                                var value = String(data[i][key]);
+                                value = value.replace(/ /ig, '');
+                                data[i][key] = parseFloat(value);
+                            }
+                            var index = findEl(sort[key], data[i][key]);
+                            sort[key][index].count += 1;
+                            sort[key][index]['elements'][sort[key][index]['elements'].length]= data[i];
+                        }
+                    }
+                }
+
+                incount = data.length / rows;
+                celoe = Math.floor(incount);
+                ostatok = Math.round((incount - celoe) * rows);
+                count_rows = celoe + 1;
+                left_in_last = ostatok;
+
+
+                for(var key in sort) {
+                    maximum_length = '';
+                    for(var i = 0; i < sort[key].length; i++) {
+                        if(key == 'bank_total_sum' || key == 'inbox_money_summ' || key == 'age') {
+                            var temp = [];
+                            temp = sort[key][i].elements;
+                            temp = temp.sort(function (first, second) {
+                                if (sort.parts[first.party_id].count > sort.parts[second.party_id].count)
+                                    return -1;
+                                else if(sort.parts[second.party_id].count > sort.parts[first.party_id].count)
+                                    return 1;
+                                else if (first[key] > second[key]) {
+                                    return -1;
+                                }
+                                else if (second[key] > first[key]) {
+                                    return 1;
+                                }
+                            });
+                            sort[key][i].elements = temp;
+                            if(sort[key][i].label.length > maximum_length.length)
+                                maximum_length = sort[key][i].label;
+                        }
+                        max_word_lenght[key] = maximum_length;
+                        if(key == 'parts')
+                            height[key] = 0;
+                        else
+                            temp_height[key][temp_height[key].length] = sort[key][i].elements.length;
+                    }
+                    if(key == 'parts')
+                        height[key] = count_rows;
+                    else if(key == 'sex')
+                        height[key] = count_rows + 3;
+                    else {
+                        for(var i =0; i<temp_height[key].length; i++) {
+                            ctx.font = "16px ALSStory";
+                            height[key] += Math.ceil(temp_height[key][i] / (rows - (Math.ceil(ctx.measureText(max_word_lenght[key]).width / width) + 2))) + 1;
+                        }
+                    }
+                }
+
+                example.height = width*height['parts'];
+
+                for(var i =0; i < data.length; i++) {
+                    y_coord += 1;
+                    data[i].circle = new circle(width/2 + width*x_coord, (0.5 + y_coord)*width, sharik/2, data[i].party_id);
+                    data[i].circle.draw();
+                    the_matrix[x_coord][y_coord] = i;
+                    if((y_coord == (count_rows-1) && left_in_last > 0) || (y_coord == (count_rows-2) && left_in_last == 0)) {
+                        if(y_coord == count_rows-1) {
+                            left_in_last -= 1;
+                        }
+                        y_coord = -1;
+                        x_coord += 1;
+                    }
+                }
+
+                $('.duma-legend__item').each(function() {
+                    $(this).find('.duma-legend__item-count').html(sort.parts[$(this).data("id")].count);
+                    $(this).find('.duma-legend__item-ball').css({
+                        'width': sharik,
+                        'height': sharik,
+                        'border-radius': sharik,
+                        'background': color[$(this).data("id")]
+                    });
+                });
+
+                $('[data-sort="inbox_money_summ"]').trigger('click');
+            }
+        });
+    });
+
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
+
+    var last_circle = {};
+    var xxx = -1;
+    var yyy = -1;
+
+    example.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(example, evt);
+        var xx = Math.floor(mousePos.x / width);
+        var yy = Math.floor(mousePos.y / width);
+        if(the_matrix[xx][yy] != undefined) {
+            if(data[the_matrix[xx][yy]] != last_circle && (xxx != xx || yyy != yy)) {
+                if(last_circle.hasOwnProperty('x'))
+                    last_circle.reDraw();
+                if(data[the_matrix[xx][yy]].img == 1)
+                    $('.duma-modal__image').html('<img onerror="imgError(this);" src="./images/deputats/'+data[the_matrix[xx][yy]].img_file+'"/>');
+                else
+                    $('.duma-modal__image').html('').css('background', color[data[the_matrix[xx][yy]].party_id]);
+                $('.duma-modal__party-name').html(sort.parts[data[the_matrix[xx][yy]].party_id].name).css('color', color[data[the_matrix[xx][yy]].party_id]);
+                $('.duma-modal__name').html(data[the_matrix[xx][yy]].name);
+                $('.duma-modal__birthdate').html(formatDate(data[the_matrix[xx][yy]].date_birthday)+ ' ('+getAge(data[the_matrix[xx][yy]].age)+')');
+                if(data[the_matrix[xx][yy]].hasOwnProperty('cikrf_work_position_group') && data[the_matrix[xx][yy]].cikrf_work_position_group != null)
+                    $('.duma-modal__more-work-value').html(data[the_matrix[xx][yy]].cikrf_work_position_group);
+                else
+                    $('.duma-modal__more-work-value').html('нет');
+                $('.duma-modal__more-commerce-value').html(data[the_matrix[xx][yy]].bissness_count);
+                $('.duma-modal__more-election-value').html(data[the_matrix[xx][yy]].election_event_list_type);
+                $('.duma-modal__more-income-value').html(data[the_matrix[xx][yy]].inbox_money_summ.formatMoney(0, ',', ' ')+' &#8381;');
+                $('.duma-modal__more-bank-value').html(data[the_matrix[xx][yy]].bank_total_sum.formatMoney(0, ',', ' ')+' &#8381;');
+                var rect = example.getBoundingClientRect();
+                if(xx > 18) {
+                    $('.duma-modal').css({
+                        'left': 0,
+                        'top': 50,
+                        'display': 'block'
+                    });
+                } else {
+                    $('.duma-modal').css({
+                        'left': 'auto',
+                        'right': 0,
+                        'top': 50,
+                        'display': 'block'
+                    });
+                }
+            }
+            data[the_matrix[xx][yy]].circle.draw(1);
+            last_circle = data[the_matrix[xx][yy]].circle;
+            xxx = xx; yyy = yy;
+        } else if(last_circle.hasOwnProperty('x')) {
+            last_circle.reDraw();
+            last_circle = {};
+            xxx = -1; yyy = -1;
+            $('.duma-modal').css('display', 'none');
+        }
+    });
+
+    ;
+
+    example.addEventListener('mouseout', function(evt) {
+        var coodrss =$('.duma-modal').offset();
+        var maxXcoord = coodrss.left + parseInt($('.duma-modal').width());
+        var maxYcoord = coodrss.top + parseInt($('.duma-modal').width());
+
+        if ((evt.clientX < coodrss.left || evt.clientX > maxXcoord) || (evt.clientY < coodrss.top && evt.clientY > maxYcoord)) {
+            $('.duma-modal').css('display', 'none');
+            if(last_circle.hasOwnProperty('x')) {
+                last_circle.reDraw();
+                last_circle = {};
+                xxx = -1;
+                yyy = -1;
+            }
+        }
+    });
+
+    /*example.addEventListener('click', function(evt) {
+        var mousePos = getMousePos(example, evt);
+        var xx = Math.floor(mousePos.x / width);
+        var yy = Math.floor(mousePos.y / width);
+        if(the_matrix[xx][yy] != undefined) {
+
+        }
+    });*/
+
+    $('.duma-legend__item').mousemove(function() {
+        for (var i = 0; i < sort.parts[$(this).data("id")].items.length; i++) {
+            sort.parts[$(this).data("id")].items[i].circle.draw(1);
+        }
+    });
+
+    $('.duma-legend__item').mouseout(function() {
+        for (var i = 0; i < sort.parts[$(this).data("id")].items.length; i++) {
+            sort.parts[$(this).data("id")].items[i].circle.reDraw();
+        }
+    });
+
+    /*$('.duma-modal__link-more').click(function() {
+        $('.duma-modal__more-wrapper').slideDown(100);
+        $('.duma-modal__more-close').css('display', 'inline-block');
+        $('.duma-modal__birthdate').show();
+        $(this).hide();
+        return false;
+    });
+
+    $('.duma-modal__more-close').click(function() {
+        $('.duma-modal__more-wrapper').slideUp(100);
+        $('.duma-modal__link-more').css('display', 'inline-block');
+        $('.duma-modal__birthdate').hide();
+        $(this).hide();
+        return false;
+    });
+
+    $('.duma-modal__close').click(function() {
+        $('.duma-modal').hide();
+        return false;
+    });*/
+
+
+
+</script>
+</body>
+</html>

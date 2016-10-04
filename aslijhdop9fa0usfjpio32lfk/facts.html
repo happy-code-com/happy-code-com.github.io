@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>Гос дума</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css" media="screen">
+</head>
+<body>
+
+<canvas id='facts'>Обновите браузер</canvas>
+
+<div class="duma-modal">
+    <div class="duma-modal__image-wrapper">
+        <div class="duma-modal__image"></div>
+    </div>
+    <div class="duma-modal__text-wrapper">
+        <div class="duma-modal__party-name"></div>
+        <div class="duma-modal__name"></div>
+        <div class="duma-modal__birthdate"></div>
+    </div>
+    <a class="duma-modal__link-more" href="#">Подробнее</a>
+    <div class="duma-modal__more-wrapper">
+        <div class="duma-modal__more-work">Род деятельности
+            <div class="duma-modal__more-work-value"></div>
+        </div>
+
+        <div class="duma-modal__more-commerce">Количество бизнес активов
+            <div class="duma-modal__more-commerce-value"></div>
+        </div>
+
+        <div class="duma-modal__more-election">Способ избрания
+            <div class="duma-modal__more-election-value"></div>
+        </div>
+
+        <div class="duma-modal__more-income">Доход<br/>
+            <div class="duma-modal__more-income-value"></div>
+        </div>
+
+        <div class="duma-modal__more-bank">Счет в банке<br/>
+            <div class="duma-modal__more-bank-value"></div>
+        </div>
+    </div>
+    <a class="duma-modal__more-close" href="#">Закрыть</a>
+    <a href="#" class="duma-modal__close">&#215;</a>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script>
+    var color = {
+        '14': '#226bc4',
+        '1': '#ef463d',
+        '7': '#509efa',
+        '2': '#f39200',
+        '12': '#B61818',
+        '4': '#bd55bd',
+        '16': '#cccccc'
+    };
+    var data = [];
+    var parts = {
+        14: {
+            'name': '«Единая Россия»',
+            'count': 0,
+            'items': []
+        },
+        1: {
+            'name': 'КПРФ',
+            'count': 0,
+            'items': []
+        },
+        7: {
+            'name': 'ЛДПР',
+            'count': 0,
+            'items': []
+        },
+        2: {
+            'name': '«Справедливая Россия»​',
+            'count': 0,
+            'items': []
+        },
+        12: {
+            'name': '«Родина»',
+            'count': 0,
+            'items': []
+        },
+        4: {
+            'name': '«Гражданская платформа»',
+            'count': 0,
+            'items': []
+        },
+        16: {
+            'name': 'Самовыдвижение',
+            'count': 0,
+            'items': []
+        }
+    };
+
+    var facts = document.getElementById("facts"),
+        ctx     = facts.getContext('2d');
+
+    var width = 20;
+    var sharik = 16;
+    var the_matrix = [];
+    for(var i = 0; i < 100; i ++)
+        the_matrix[i] = [];
+
+    var max_in_row = Math.floor(($('body').innerWidth() - 25) / (2*width));
+
+    facts.width = max_in_row * width * 2 + 25;
+
+    var texts = [];
+    var lines = [];
+    var circles = [];
+
+    $(document).ready(function() {
+        $.ajax({
+            url: 'data.json',
+            dataType: 'json',
+            cache: false,
+            complete: function(deputates) {
+                data = JSON.parse(deputates.responseText);
+
+                for(var i = 0; i < data.length; i++) {
+                    data[i].inbox_money_summ = parseFloat(String(data[i].inbox_money_summ).replace(/ /ig, ''));
+                    data[i].bank_total_sum = parseFloat(String(data[i].bank_total_sum).replace(/ /ig, ''));
+                    parts[data[i].party_id].count += 1;
+                    parts[data[i].party_id].items[parts[data[i].party_id].items.length] = data[i];
+                }
+
+                data = data.sort( function(first, second) {
+                    if(parts[first.party_id].count > parts[second.party_id].count)
+                        return -1;
+                    else if(parts[second.party_id].count > parts[first.party_id].count)
+                        return 1;
+                    else {
+                        if(first.party_name > second.party_name) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                });
+
+                console.log(data);
+
+                initAllSozyvs();
+                initLastSozyv();
+                initCosmos();
+                initMayor();
+                initOlympic();
+                initSenators();
+                initYongest();
+                initBiggest();
+                initCars();
+                initChange();
+                initVdv();
+
+                if(row1_y > row2_y)
+                    facts.height = row1_y*width;
+                else
+                    facts.height = row2_y*width;
+
+                for(var i = 0; i < texts.length; i ++ ) {
+                    texts[i].draw();
+                }
+                for(var i = 0; i < lines.length; i ++ ) {
+                    lines[i].draw();
+                }
+                for(var i = 0; i < circles.length; i ++ ) {
+                    circles[i].draw();
+                }
+            }
+
+        });
+    });
+
+    row1_y = 0;
+    row1_x = 0;
+    row2_y = 0;
+    row2_x = 0;
+    this_y = -1;
+
+    var allSozyv = [];
+    function initAllSozyvs() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_all_sozyv_duma == 1) {
+                allSozyv[allSozyv.length] = data[i];
+            }
+        }
+
+        drob = allSozyv.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = allSozyv.length+" депутатов прошли 7 Созывов Госдумы";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        row1_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < allSozyv.length; i++) {
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row1_x +0.5) * width, (row1_y + this_y + 0.5) * width, sharik/2, allSozyv[i].party_id);
+            circles[this_id].id = data.indexOf(allSozyv[i]);
+            the_matrix[row1_x][row1_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row1_x += 1;
+            }
+        }
+        row1_y += rows_max + 2;
+    }
+
+    var lastSozyv = [];
+    function initLastSozyv() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._is_exists_6_sozyv == 1) {
+                lastSozyv[lastSozyv.length] = data[i];
+            }
+        }
+
+        drob = lastSozyv.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = lastSozyv.length+" депутатов были в Думе vi Созыва";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, max_in_row* width + 25, (row2_y + 1)* width, max_in_row*width, width);
+            row2_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, max_in_row* width + 25, (row2_y + 1) * width , '#000000');
+            row2_y += 2;
+        }
+
+        row2_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < lastSozyv.length; i++ ){
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row2_x + max_in_row +0.5) * width + 25, (row2_y + this_y + 0.5) * width, sharik/2, lastSozyv[i].party_id);
+            circles[this_id].id = data.indexOf(lastSozyv[i]);
+            the_matrix[row2_x + max_in_row + 1][row2_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row2_x += 1;
+            }
+        }
+        row2_y += rows_max + 2;
+    }
+
+    var cosmos = [];
+    function initCosmos() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_cosmos_man == 1) {
+                cosmos[cosmos.length] = data[i];
+            }
+        }
+
+        drob = cosmos.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = cosmos.length+" космонавтов стали депутатами";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        row1_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < cosmos.length; i++ ){
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row1_x +0.5) * width, (row1_y + this_y + 0.5) * width, sharik/2, cosmos[i].party_id);
+            circles[this_id].id = data.indexOf(cosmos[i]);
+            the_matrix[row1_x][row1_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row1_x += 1;
+            }
+        }
+        row1_y += rows_max + 2;
+    }
+
+    var mayor = [];
+    function initMayor() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_prev_mayor == 1) {
+                mayor[mayor.length] = data[i];
+            }
+        }
+
+        drob = mayor.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = mayor.length+" мэров сложили свои полномочия ради депутатского кресла";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        row1_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < mayor.length; i++ ){
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row1_x +0.5) * width, (row1_y + this_y + 0.5) * width, sharik/2, mayor[i].party_id);
+            circles[this_id].id = data.indexOf(mayor[i]);
+            the_matrix[row1_x][row1_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row1_x += 1;
+            }
+        }
+        row1_y += rows_max + 2;
+        console.log(mayor);
+    }
+
+    var olympic = [];
+    function initOlympic() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_olimpic_games_winner == 1) {
+                olympic[olympic.length] = data[i];
+            }
+        }
+
+        drob = olympic.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = olympic.length+" призеров Олимпийских / Паралимпийских игр выиграли на выборах в Думу";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, max_in_row* width + 25, (row2_y + 1)* width, max_in_row*width, width);
+            row2_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, max_in_row* width + 25, (row2_y + 1) * width , '#000000');
+            row2_y += 2;
+        }
+
+        row2_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < olympic.length; i++ ){
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row2_x + max_in_row +0.5) * width + 25, (row2_y + this_y + 0.5) * width, sharik/2, olympic[i].party_id);
+            circles[this_id].id = data.indexOf(olympic[i]);
+            the_matrix[row2_x + max_in_row + 1][row2_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row2_x += 1;
+            }
+        }
+        row2_y += rows_max + 2;
+    }
+
+    var senators = [];
+    function initSenators() {
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_prev_senator == 1) {
+                senators[senators.length] = data[i];
+            }
+        }
+
+        drob = mayor.length / max_in_row;
+        rows_max = Math.floor(drob);
+        left_in_row = Math.round((drob - rows_max)*max_in_row);
+
+        var text = senators.length+" сенаторов перешли в Нижнюю Палату Парламента";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        row1_x = 0;
+        this_y = -1;
+
+        for(var i = 0; i < senators.length; i++ ){
+            this_y += 1;
+            this_id = circles.length;
+            circles[this_id] = new circle((row1_x +0.5) * width, (row1_y + this_y + 0.5) * width, sharik/2, senators[i].party_id);
+            circles[this_id].id = data.indexOf(senators[i]);
+            the_matrix[row1_x][row1_y + this_y] = this_id;
+            if((this_y == rows_max && left_in_row > 0) || (this_y == rows_max -1 && left_in_row == 0)) {
+                if(this_y == rows_max)
+                    left_in_row -= 1;
+                this_y = -1;
+                row1_x += 1;
+            }
+        }
+        row1_y += rows_max + 2;
+    }
+
+    var youngest = [];
+    function initYongest() {
+        ctx.font = "normal 16px ALSStory";
+        var min_years = 100;
+        var number = 0;
+        for(var i = 0; i < data.length; i++) {
+            if(data[i].age < min_years) {
+                youngest = data[i];
+                min_years = data[i].age;
+                number = i;
+            }
+        }
+
+        var text = "Самому молодому депутату ГД 21 год";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        this_id = circles.length;
+        circles[this_id] = new circle(0.5 * width, (row1_y + 0.5) * width, sharik/2, youngest.party_id);
+        texts[texts.length] = new textLeft(youngest.name, 1.5 * width, (row1_y + 1) * width , '#000000');
+        circles[this_id].id = number;
+        the_matrix[0][row1_y] = this_id;
+        row1_y += 2;
+    }
+
+    var biggest = [];
+    function initBiggest() {
+        var number = 0;
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_most_big_appartment == 1) {
+                biggest = data[i];
+                number = i;
+                break;
+            }
+        }
+
+        var text = "671 квадратный метр – площадь самой большой квартиры";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        this_id = circles.length;
+        circles[this_id] = new circle(0.5 * width, (row1_y + 0.5) * width, sharik/2, biggest.party_id);
+        texts[texts.length] = new textLeft(biggest.name, 1.5 * width, (row1_y + 1) * width , '#000000');
+        circles[this_id].id = number;
+        the_matrix[0][row1_y] = this_id;
+        row1_y += 2;
+    }
+
+    var cars = [];
+    function initCars() {
+        var number = 0;
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_most_count_autos == 1) {
+                cars = data[i];
+                number = i;
+            }
+        }
+
+        var text = "201 транспортное средство есть у 1 депутата";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, max_in_row*width + 25, (row2_y + 1)* width, max_in_row*width, width);
+            row2_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, max_in_row*width + 25, (row2_y + 1) * width , '#000000');
+            row2_y += 2;
+        }
+
+        this_id = circles.length;
+        console.log(max_in_row);
+        circles[this_id] = new circle((max_in_row + 1.5) * width + 5, (row2_y + 0.5) * width, sharik/2, cars.party_id);
+        texts[texts.length] = new textLeft(cars.name, (max_in_row + 2.5) * width + 5, (row2_y + 1) * width , '#000000');
+        circles[this_id].id = number;
+        the_matrix[max_in_row+1][row2_y] = this_id;
+        row2_y += 2;
+    }
+
+    var change = [];
+    function initChange() {
+        var number = 0;
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_change_tree_goverment == 1) {
+                change = data[i];
+                number = i;
+                break;
+            }
+        }
+
+        var text = "1 заместитель министра  финансов сменил ветвь власти";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, 0, (row1_y + 1)* width, max_in_row*width, width);
+            row1_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, 0, (row1_y + 1) * width , '#000000');
+            row1_y += 2;
+        }
+
+        this_id = circles.length;
+        circles[this_id] = new circle(0.5 * width, (row1_y + 0.5) * width, sharik/2, change.party_id);
+        texts[texts.length] = new textLeft(change.name, 1.5 * width, (row1_y + 1) * width , '#000000');
+        circles[this_id].id = number;
+        the_matrix[0][row1_y] = this_id;
+        row1_y += 2;
+    }
+
+    var vdv = [];
+    function initVdv() {
+        var number = 0;
+        ctx.font = "normal 16px ALSStory";
+        for(var i = 0; i < data.length; i++) {
+            if(data[i]._fact_change_war_2_gd == 1) {
+                vdv = data[i];
+                number = i;
+            }
+        }
+
+        var text = "Командующий Воздушно-десантными войсками ВС РФ займется политикой";
+        var rows_here = Math.ceil(ctx.measureText(text).width/(max_in_row* width));
+        if(rows_here > 1) {
+            texts[texts.length] = new wrapText(text, max_in_row*width + 25, (row2_y + 1)* width, max_in_row*width, width);
+            row2_y += rows_here + 1;
+        } else {
+            texts[texts.length] = new textLeft(text, max_in_row*width + 25, (row2_y + 1) * width , '#000000');
+            row2_y += 2;
+        }
+
+        this_id = circles.length;
+        console.log(max_in_row);
+        circles[this_id] = new circle((max_in_row + 1.5) * width + 5, (row2_y + 0.5) * width, sharik/2, vdv.party_id);
+        texts[texts.length] = new textLeft(vdv.name, (max_in_row + 2.5) * width + 5, (row2_y + 1) * width , '#000000');
+        circles[this_id].id = number;
+        the_matrix[max_in_row+1][row2_y] = this_id;
+        row2_y += 2;
+    }
+
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
+
+    var last_circle = {};
+    var xxx = -1;
+    var yyy = -1;
+
+    facts.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(facts, evt);
+        var xx = Math.floor(mousePos.x / width);
+        if(xx > 19)
+            xx = Math.floor((mousePos.x - 5) / width);
+        var yy = Math.floor(mousePos.y / width);
+        if(the_matrix[xx][yy] != undefined) {
+            if(circles[the_matrix[xx][yy]] != last_circle && (xxx != xx || yyy != yy)) {
+                if(last_circle.hasOwnProperty('x'))
+                    last_circle.reDraw();
+                if(data[circles[the_matrix[xx][yy]].id].img == 1)
+                    $('.duma-modal__image').html('<img onerror="imgError(this);" src="./images/deputats/'+data[circles[the_matrix[xx][yy]].id].img_file+'"/>');
+                else
+                    $('.duma-modal__image').html('').css('background', color[data[circles[the_matrix[xx][yy]].id].party_id]);
+                $('.duma-modal__party-name').html(parts[data[circles[the_matrix[xx][yy]].id].party_id].name).css('color', color[data[circles[the_matrix[xx][yy]].id].party_id]);
+                $('.duma-modal__name').html(data[circles[the_matrix[xx][yy]].id].name);
+                $('.duma-modal__birthdate').html(formatDate(data[circles[the_matrix[xx][yy]].id].date_birthday)+ ' ('+getAge(data[circles[the_matrix[xx][yy]].id].age)+')');
+                if(data[circles[the_matrix[xx][yy]].id].hasOwnProperty('cikrf_work_position_group') && data[circles[the_matrix[xx][yy]].id].cikrf_work_position_group != null)
+                    $('.duma-modal__more-work-value').html(data[circles[the_matrix[xx][yy]].id].cikrf_work_position_group);
+                else
+                    $('.duma-modal__more-work-value').html('нет');
+                $('.duma-modal__more-commerce-value').html(data[circles[the_matrix[xx][yy]].id].bissness_count);
+                $('.duma-modal__more-election-value').html(data[circles[the_matrix[xx][yy]].id].election_event_list_type);
+                $('.duma-modal__more-income-value').html(parseFloat(data[circles[the_matrix[xx][yy]].id].inbox_money_summ).formatMoney(0, ',', ' ')+' &#8381;');
+                $('.duma-modal__more-bank-value').html(parseFloat(data[circles[the_matrix[xx][yy]].id].bank_total_sum).formatMoney(0, ',', ' ')+' &#8381;');
+                var rect = facts.getBoundingClientRect();
+                if(xx > 18) {
+                    $('.duma-modal').css({
+                        'left': 0,
+                        'top': 50,
+                        'display': 'block'
+                    });
+                } else {
+                    $('.duma-modal').css({
+                        'left': 'auto',
+                        'right': 0,
+                        'top': 50,
+                        'display': 'block'
+                    });
+                }
+            }
+            circles[the_matrix[xx][yy]].draw(1);
+            last_circle = circles[the_matrix[xx][yy]];
+            xxx = xx; yyy = yy;
+        } else if(last_circle.hasOwnProperty('x')) {
+            last_circle.reDraw();
+            last_circle = {};
+            $('.duma-modal').css('display', 'none');
+            xxx = -1; yyy = -1;
+        }
+    });
+
+    facts.addEventListener('mouseout', function(evt) {
+        var coodrss =$('.duma-modal').offset();
+        var maxXcoord = coodrss.left + parseInt($('.duma-modal').width());
+        var maxYcoord = coodrss.top + parseInt($('.duma-modal').width());
+
+        if ((evt.clientX < coodrss.left || evt.clientX > maxXcoord) || (evt.clientY < coodrss.top && evt.clientY > maxYcoord)) {
+            $('.duma-modal').css('display', 'none');
+            if(last_circle.hasOwnProperty('x')) {
+                last_circle.reDraw();
+                last_circle = {};
+                xxx = -1; yyy = -1;
+            }
+        }
+    });
+
+
+</script>
